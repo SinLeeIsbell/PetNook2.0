@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/signin.css">
+    <title>User Login Page</title>
+</head>
+<body>
+    </header>
+    <div class = "backCont">
+    <a href="/" class="back-button"><i class="fa-solid fa-arrow-left fa-3x"></i></a></div>
+    <div class="container">
+        <div class = "head"><h1>Sign In</h1></div>
+        <img id="dog" src="/images/dog.png">
+        <form method="POST" action="/user/signin">
+            <label for="email"></label>
+            <input type="email" id="email" name="email" required placeholder="Email Address">
+
+            <label for="password"></label>
+            <input type="password" id="password" name="password" required placeholder="Password">
+            
+            <p class = "sign">Don't have an account? <a href="/signup">Sign up!</a></p>
+
+            <button class="submit-button" type="submit">CONTINUE</button>
+        </form>
+    </div>
+
+</body>
+<script src="https://kit.fontawesome.com/8cee7d6611.js" crossorigin="anonymous"></script>
+</html>
