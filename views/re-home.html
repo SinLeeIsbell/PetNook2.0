@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/re-home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gluten:wght@300&display=swap" rel="stylesheet">
+    <title>Pet Profile</title>
+  </head>
+  <body>
+
+${nav}
+${mobilenav}
+
+  <div class="containerProfile">
+    <div class = "left">
+        <h1>Submit Pet Information</h1>
+        <form id="petInfoForm" method="POST" action="/pet/new" enctype="multipart/form-data">
+          <label for="petPhoto">Upload a Photo of Your Pet:</label>
+          <input type="file" id="petPhoto" name="petPhoto" accept="image/*" required>
+          <div class="image-preview">
+            <img id="uploadedImage" src="#" alt="Uploaded Pet Photo">
+          </div>
+        </div>
+          <div class = "right">
+      <h1>Pet Information</h1>
+        <label for="petName"></label>
+        <input type="text" id="petName" name="name" required placeholder="Name of Pet"><br><br>
+
+        <label for="petWeight"></label>
+        <input type="number" id="petWeight" name="weight" required placeholder="Approximate Weight (lbs):"><br><br>
+
+        <label for="petAge">Age:</label>
+        <select id="petAge" name="age">
+          <option value="young">Young</option>
+          <option value="adult">Adult</option>
+          <option value="senior">Senior</option>
+        </select><br><br>
+        <label for="petGender">Gender:</label>
+        <select id="petGender" name="gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select><br><br>
+        <label for="petType">Type:</label>
+        <select id="petType" name="type">
+          <option value="dog">Dog</option>
+          <option value="cat">Cat</option>
+          <option value="bird">Bird</option>
+          <option value="miscellaneous">Miscellaneous</option>
+        </select><br><br>
+
+        <label for="petBio">Short Bio:</label><br>
+        <textarea id="petBio" name="bio" rows="4" cols="50"></textarea><br><br>
+
+        <button type="submit">Submit Pet Information</button>
+      </form>
+    
+  </div>
+  </div>
+
+  <div id="loading-container" class="loading-container" style= "display: none;">
+    <div class="loading-spinner"></div>
+    <p>Please Wait a Moment While Your Image Uploads</p>
+  </div>
+  
+
+  <script>
+document.getElementById("petPhoto").addEventListener("change", function (event) {
+  const uploadedImage = document.getElementById("uploadedImage");
+  const file = event.target.files[0];
+
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      uploadedImage.src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+  }
+});
+
+
+document.getElementById("petInfoForm").addEventListener("submit", async function (event) {
+  event.preventDefault(); 
+
+
+  const loadingContainer = document.getElementById("loading-container");
+  loadingContainer.style.display = "block";
+
+  const formData = new FormData(this);
+
+  try {
+    const response = await fetch("/pet/new", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      const petId = data.petId;
+      window.location.href = "/profile/pet/" + petId;
+    } else {
+      console.error("Form submission failed");
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+  } finally {
+    loadingContainer.style.display = "none";
+  }
+});
+
+
+
+
+
+</script>
+  </body>
+  <script src="https://kit.fontawesome.com/8cee7d6611.js" crossorigin="anonymous"></script>
+  
+  </html>
