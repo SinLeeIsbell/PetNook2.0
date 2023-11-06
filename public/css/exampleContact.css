@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+}
+
+.celebration {
+    font-size: 36px;
+    color: #3913c2; /* Gold color */
+    animation: scaleAndFade 2s ease-in-out infinite alternate;
+}
+
+@keyframes scaleAndFade {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+.email-form {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+body {
+    background-color: #d9d4cd;
+    margin: 0%;
+    padding: 0%;
+  }
+  
+
+.back-button {
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+    position: absolute;; 
+    left: 6%;
+    top: 23%; /* Position the button vertically in the middle */
+    transform: translateY(-32%);
+}
+
+@media (max-width: 450px) {
+    .email-form {
+        margin-top: 20px;
+    }
+    #emailText {
+        height: 25em;
+        width: 15em; 
+        }
+    .celebration {
+        font-size: 28px;
+    }
+    .back-button {
+        left: 2%;
+        top: 18%;
+    }
+    }
