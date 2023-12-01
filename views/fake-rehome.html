@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/public/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/re-home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gluten:wght@300&display=swap" rel="stylesheet">
+    <title>Pet Profile</title>
+  </head>
+  <body>
+
+${nav}
+${mobilenav}
+
+  <div class="containerProfile">
+    <div class = "left">
+        <h1>Submit Pet Information</h1>
+        <form action="/pet/new/meir" method="post">
+    </div>
+    <div class = "right">
+        <h1>Pet Information</h1>
+        <label for="petName"></label>
+        <input type="text" id="petName" name="name" required placeholder="Name of Pet"><br><br>
+
+        <label for="petWeight"></label>
+        <input type="number" id="petWeight" name="weight" required placeholder="Approximate Weight (lbs):"><br><br>
+
+        <label for="petAge">Age:</label>
+        <select id="petAge" name="age">
+          <option value="young">Young</option>
+          <option value="adult">Adult</option>
+          <option value="senior">Senior</option>
+        </select><br><br>
+
+        <label for="petGender">Gender:</label>
+        <select id="petGender" name="gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select><br><br>
+
+        <label for="petType">Type:</label>
+        <select id="petType" name="type">
+          <option value="dog">Dog</option>
+          <option value="cat">Cat</option>
+          <option value="bird">Bird</option>
+          <option value="miscellaneous">Miscellaneous</option>
+        </select><br><br>
+
+        <label for="petBio">Short Bio:</label><br>
+        <textarea id="petBio" name="bio" rows="4" cols="50"></textarea><br><br>
+
+        <button type="submit">Submit Pet Information</button>
+      </form>
+    
+  </div>
+  </div>
+
+  <!-- <script>
+document.getElementById("petInfoForm").addEventListener("submit", async function (event) {
+  event.preventDefault(); 
+
+    const formData = new FormData(this);
+    console.log(formData)
+  try {
+    const response = await fetch("/pet/new/meir", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (response.ok) {
+        console.log("ok")
+      const data = await response.json();
+    //   const petId = data.petId;
+    //   window.location.href = "/profile/pet/" + petId;
+        window.location.href = "/";
+    } else {
+      console.error("Form submission failed");
+    }
+  } catch (error) {
+    console.log("error")
+    console.error("An error occurred:", error);
+  }
+});
+
+</script> -->
+  </body>
+  <script src="https://kit.fontawesome.com/8cee7d6611.js" crossorigin="anonymous"></script>
+  
+  </html>
