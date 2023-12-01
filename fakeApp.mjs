@@ -31,8 +31,26 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("tiny"));
 
 app.get("/", async (req, res) => {
+  const { name, age, gender, type } = req.query;
+  const filter = { isAdopted: false };
+
+  if (name) {
+    filter.name = name;
+  }
+
+  if (age && age !== "all") {
+    filter.age = age;
+  }
+
+  if (gender && gender !== "all") {
+    filter.gender = gender;
+  }
+
+  if (type && type !== "all") {
+    filter.type = type;
+  }
   try {
-    const pets = await Pets.find({});
+    const pets = await Pets.find(filter, ["name", "gender", "age"]);
     res.render("home", {
       locals: {
         pets,
@@ -83,6 +101,39 @@ app.get("/rehome", (req, res) => {
   });
 });
 
+//filter brings you back to home page
+app.get("/adopted", async (req, res) => {
+  const { name, age, gender } = req.query;
+  const filter = { isAdopted: true };
+
+  if (name) {
+    filter.name = name;
+  }
+
+  if (age && age !== "all") {
+    filter.age = age;
+  }
+
+  if (gender && gender !== "all") {
+    filter.gender = gender;
+  }
+  try {
+    const pets = await Pets.find(filter, ["name", "gender", "age"]);
+    res.render("recently-adopted", {
+      locals: {
+        pets,
+      },
+      partials: {
+        nav: "partials/nav",
+        mobilenav: "partials/mobilenav",
+      },
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+});
+
 mongoose
   .connect(mongoDBURL)
   .then(() => {
@@ -94,38 +145,3 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
-
-//   : [
-//     {
-//       id: 1,
-//       name: "Buddy",
-//       age: "Young",
-//       gender: "Male",
-//       type: "Dog",
-//       imageURL: "buddy.jpg",
-//     },
-//     {
-//       id: 2,
-//       name: "Whiskers",
-//       age: "Adult",
-//       gender: "Female",
-//       type: "Cat",
-//       imageURL: "whiskers.jpg",
-//     },
-//     {
-//       id: 3,
-//       name: "Rocky",
-//       age: "Senior",
-//       gender: "Male",
-//       type: "Dog",
-//       imageURL: "rocky.jpg",
-//     },
-//     {
-//       id: 4,
-//       name: "Luna",
-//       age: "Young",
-//       gender: "Female",
-//       type: "Dog",
-//       imageURL: "luna.jpg",
-//     },
-//   ],
