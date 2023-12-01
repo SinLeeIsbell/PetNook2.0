@@ -126,38 +126,40 @@ app.get("/", async (req, res) => {
 //   });
 // });
 
-// app.post("/pet/new", upload.single("petPhoto"), async (req, res) => {
-//   const { name, weight, age, gender, type, bio } = req.body;
+app.post("/pet/new", upload.single("petPhoto"), async (req, res) => {
+  const { name, weight, age, gender, type, bio } = req.body;
 
-//   const timestamp = Date.now().toString();
-//   const fileName = `pets/${timestamp}-${uuidv4()}.jpg`;
+  const timestamp = Date.now().toString();
+  const fileName = `pets/${timestamp}-${uuidv4()}.jpg`;
 
-//   const resizedImage = await sharp(req.file.buffer)
-//     .resize(614, 874)
-//     .jpeg()
-//     .toBuffer();
+  const resizedImage = await sharp(req.file.buffer)
+    .resize(614, 874)
+    .jpeg({quality: 70}) //compression
+    .toBuffer();
 
-//   const params = {
-//     Bucket: "pet-images-dc",
-//     Key: fileName,
-//     Body: req.file.buffer,
-//   };
+  const params = {
+    Bucket: "pet-images-dc",
+    Key: fileName,
+    Body: req.file.buffer,
+  };
 
-//   const s3Response = await s3.upload(params).promise();
+  const s3Response = await s3.upload(params).promise();
 
-//   const newPet = await Pets.create({
-//     name,
-//     weight,
-//     age,
-//     gender,
-//     type,
-//     bio,
-//     isAdopted: false,
-//     ownerId: req.session.user.id,
-//     pics: fileName,
-//   });
-//   res.json({ petId: newPet.id });
-// });
+  // const imageUrl = s3Response.Location;
+
+  const newPet = await Pets.create({
+    name,
+    weight,
+    age,
+    gender,
+    type,
+    bio,
+    isAdopted: false,
+    ownerId: req.session.user.id,
+    pics: fileName,
+  });
+  res.json({ petId: newPet.id });
+});
 
 // app.get("/signup", (req, res) => {
 //   res.render("sign-up");
