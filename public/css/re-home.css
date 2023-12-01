@@ -1,22 +1,21 @@
 body {
-    background-color: #d9d4cd;
-    margin: 0%;
-    padding: 0%;
-  }
+  background-color: #d9d4cd;
+  margin: 0%;
+  padding: 0%;
+}
 
-  .container {
-    margin-top: 100px;
-    
-  }
+.container {
+  margin-top: 100px;
+}
 
-  .containerProfile {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    margin-top: 5rem;
-  }
+.containerProfile {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  margin-top: 5rem;
+}
 
- h1 {
+h1 {
   text-align: center;
 }
 
@@ -24,18 +23,15 @@ body {
   max-width: 500px;
   max-height: 500px;
 }
- 
 
 @media screen and (max-width: 992px) {
-
-
-    .containerProfile {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    margin-bottom: 30px;}
-      
+  .containerProfile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+  }
 }
 
 .loading-container {
@@ -63,11 +59,13 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
-
-
 
 @media screen and (max-width: 480px) {
   .left {
@@ -82,7 +80,7 @@ body {
     flex-direction: column;
     justify-content: center;
     width: 70%;
-  } 
+  }
 
   #uploadedImage {
     max-width: 250px;
