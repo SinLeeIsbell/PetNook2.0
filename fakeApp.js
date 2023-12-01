@@ -69,6 +69,58 @@ app.get("/", async (req, res) => {
   });
 });
 
+app.post("/pet/new", upload.single("petPhoto"), async (req, res) => {
+  const { name, weight, age, gender, type, bio } = req.body;
+
+  const timestamp = Date.now().toString();
+  const fileName = `pets/${timestamp}-${uuidv4()}.jpg`;
+
+  const resizedImage = await sharp(req.file.buffer)
+    .resize(614, 874)
+    .jpeg({ quality: 70 }) //compression
+    .toBuffer();
+
+  const params = {
+    Bucket: "pet-images-dc",
+    Key: fileName,
+    Body: req.file.buffer,
+  };
+
+  const s3Response = await s3.upload(params).promise();
+
+  // const imageUrl = s3Response.Location;
+
+  const newPet = await Pets.create({
+    name,
+    weight,
+    age,
+    gender,
+    type,
+    bio,
+    isAdopted: false,
+    ownerId: req.session.user.id,
+    pics: fileName,
+  });
+  res.json({ petId: newPet.id });
+});
+
+app.post("/pet/new/meir", upload.single("petPhoto"), async (req, res) => {
+  const { name, weight, age, gender, type, bio } = req.body;
+
+  const newPet = await Pets.create({
+    name,
+    weight,
+    age,
+    gender,
+    type,
+    bio,
+    isAdopted: false,
+    ownerId: req.session.user.id,
+    pics: fileName,
+  });
+  res.json({ petId: newPet.id });
+});
+
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);
 });
