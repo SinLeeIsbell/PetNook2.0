@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/desk.css">
+    <link rel="stylesheet" href="/public/css/desk.css">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,19 +70,18 @@
     </div> 
 
         <div class="card-container">
-            ${pets.length === 0 ? '<p class = "noRes">No Results Matching Your Query</p>' :
-            pets.map(pet => `
+            <p class = "noRes">No Results Matching Your Query</p>
                 <div class="card">
-                    <img src="${pet.imageURL}" alt="${pet.name}">
+                    <img src="imageURL FOR PET" alt="PET'S NAME">
                     <div class="card-info">
                         <div class="info-container">
                             <div class="card-name">
-                                <h3>${pet.name}</h3>
-                                <div class="card-age">${pet.age}</div>
-                                <div class="small-gender">${pet.gender}</div>
+                                <h3>PET'S NAME</h3>
+                                <div class="card-age">PET'S AGE</div>
+                                <div class="small-gender">PET'S GENDER</div>
                             </div>
                             <div class="card-gender"> 
-                                <i class='${pet.gender === "male" ? "fa-solid fa-mars" : "fa-solid fa-venus" }'></i>  
+                                <i>SYMBOL FOR GENDER</i>  
                             </div>
                         </div>
                         <div class="button">
@@ -90,7 +89,6 @@
                         </div>
                     </div>
                 </div>
-            `).join('')}
             
 
 
