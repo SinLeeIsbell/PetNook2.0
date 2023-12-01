@@ -50,6 +50,11 @@ app.get("/", async (req, res) => {
 
 app.post("/pet/new/meir", async (req, res) => {
   const { name, weight, age, gender, type, bio } = req.body;
+
+  if (!name || !weight || !age || !gender || !type) {
+    return res.status(400).send({ message: "Required fields missing" });
+  }
+
   try {
     const newPet = {
       name,
@@ -61,7 +66,7 @@ app.post("/pet/new/meir", async (req, res) => {
       isAdopted: false,
     };
     const pet = await Pets.create(newPet);
-    return res.status(201).send(pet);
+    return res.redirect("/");
   } catch (error) {
     console.log(error.message);
     res.status(500).send({ message: error.message });
@@ -70,7 +75,7 @@ app.post("/pet/new/meir", async (req, res) => {
 
 //add check if foster and get their ID
 app.get("/rehome", (req, res) => {
-  res.render("re-home", {
+  res.render("fake-rehome", {
     partials: {
       nav: "partials/nav",
       mobilenav: "partials/mobilenav",
