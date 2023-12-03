@@ -101,6 +101,43 @@ app.get("/rehome", (req, res) => {
   });
 });
 
+// run check auth before going here
+app.get("/profile/pet/:id", async (req, res) => {
+    const { id } = req.params;
+    const pet = await Pets.findOne({
+      _id: id,
+    });
+    // pet.imageURL = `https://pet-images-dc.s3.amazonaws.com/${pet.pics}`;
+
+    res.render("pet-profile", {
+      locals: {
+        pet,
+      },
+      partials: {
+        nav: "partials/nav",
+        mobilenav: "partials/mobilenav",
+      },
+    });
+  });
+
+  app.get("/contact/pet/:id", async (req, res) => {
+      const { id } = req.params;
+    
+      const pet = await Pets.findOne({ _id: id }).select("name");
+
+    
+      res.render("contact", {
+        locals: {
+          petId: id,
+          pet,
+        },
+        partials: {
+          nav: "partials/nav",
+          mobilenav: "partials/mobilenav",
+        },
+      });
+    });
+
 //filter brings you back to home page
 app.get("/adopted", async (req, res) => {
   const { name, age, gender } = req.query;
