@@ -4,7 +4,7 @@ import es6 from "express-es6-template-engine";
 import session from "express-session";
 import bcrypt from "bcrypt";
 import { Pets } from "./models/petsModels.mjs";
-
+import { Users } from "./models/usersModels.mjs";
 import multer from "multer";
 import morgan from "morgan";
 import sharp from "sharp";
@@ -122,9 +122,7 @@ app.get("/profile/pet/:id", async (req, res) => {
 
   app.get("/contact/pet/:id", async (req, res) => {
       const { id } = req.params;
-    
       const pet = await Pets.findOne({ _id: id }).select("name");
-
     
       res.render("contact", {
         locals: {
@@ -170,6 +168,116 @@ app.get("/adopted", async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 });
+
+app.get("/signup", (req, res) => {
+  res.render("sign-up");
+});
+
+app.post("/user/new", async (req, res) => {
+  const { name, email, password, foster } = req.body;
+  if (email === "" || password === "") {
+    console.log("username or password is blank");
+  } else {
+    const salt = 10;
+    const hash = await bcrypt.hash(password, salt);
+    try {
+      const newUser = await Users.create({
+        name,
+        email,
+        password: hash,
+        foster,
+      });
+      res.redirect("/signin");
+    } catch (e) {
+      // if (e.name === "SequelizeUniqueConstraintError") {
+      //   console.log("Email is already taken");
+      // }
+      console.log(e)
+      res.redirect("/signup");
+    }
+  }
+});
+
+app.get("/signin", (req, res) => {
+  res.render("sign-in");
+});
+
+app.post("/user/signin", async (req, res) => {
+  const { email, password } = req.body;
+  const user = await Users.findOne({ email });
+
+  if (user) {
+    bcrypt.compare(password, user.password, (err, result) => {
+      if (result) {
+      //   req.session.user = user;
+      //   req.session.save(() => {
+          res.redirect("/profile/user/" + user.id);
+        // });
+      } else {
+        res.redirect("/signin");
+      }
+    });
+  } else {
+    res.redirect("/signin");
+  }
+});
+
+// add check auth and check id
+app.get("/profile/user/:id", async (req, res) => {
+    const { id } = req.params;
+    const user = await Users.findOne({ _id: id });
+
+  
+    if (user.foster) {
+      // const pendings = await Pending.findAll({
+      //   attributes: ["petId"],
+      //   where: {
+      //     userId: id,
+      //   },
+      // });
+      // const petIds = pendings.map((pending) => pending.petId);
+      // const pendingPets = await Pets.findAll({
+      //   where: {
+      //     id: petIds,
+      //   },
+      // });
+                      // const usersPets = await Pets.find({
+                      //   ownerId: id,
+                      //   isAdopted: false,
+                      // });
+      
+  
+      res.render("fake-foster-profile", {
+        locals: {
+                      // usersPets,
+          // pendingPets,
+          name: user.name,
+          email: user.email,
+        },
+      });
+    } else {
+      // const pendings = await Pending.findAll({
+      //   attributes: ["petId"],
+      //   where: {
+      //     userId: id,
+      //   },
+      // });
+      // const petIds = pendings.map((pending) => pending.petId);
+      // const pets = await Pets.findAll({
+      //   where: {
+      //     id: petIds,
+      //   },
+      // });
+  
+      res.render("fake-foster-profile", {
+        locals: {
+          // pets,
+          name: user.name,
+          email: user.email,
+        },
+      });
+    }
+  });
 
 mongoose
   .connect(mongoDBURL)
