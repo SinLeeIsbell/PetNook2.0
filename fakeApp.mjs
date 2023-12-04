@@ -279,6 +279,19 @@ app.get("/profile/user/:id", async (req, res) => {
     }
   });
 
+  app.delete("/profile/user/:id", async (req, res) => {
+      const { id } = req.params;
+      try {
+        const deletedUser = await Users.deleteOne({ _id: id });
+        console.log("User deleted:", deletedUser);
+        res.json(deletedUser);
+      } catch (error) {
+        console.error("Error deleting user:", error.message);
+      }
+      // req.session.destroy();
+      // res.clearCookie("connect.sid");
+    });
+
 mongoose
   .connect(mongoDBURL)
   .then(() => {
